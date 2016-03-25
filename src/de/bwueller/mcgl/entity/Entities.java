@@ -25,6 +25,10 @@ public class Entities {
         }
     }
     
+    public static Entities Player = Entities.getSingle(EntityType.Player);
+    public static Entities AllPlayers = Entities.get(EntityType.Player);
+    public static Entities ArmorStand = Entities.getSingle(EntityType.ArmorStand);
+    
     private SelectorType selectorType = SelectorType.MULTIPLE;
     private EntityType entityType = EntityType.ANY;
     private String gamemode = Gamemode.ANY;
