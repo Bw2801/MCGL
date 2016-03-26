@@ -260,6 +260,18 @@ public final class Generator {
         return commands;
     }
     
+    public static List<String> getOneClickCommands(List<Command> commands, int maxHeight, boolean trackOutput) {
+        SplitResult splitResult = splitCommands(commands);
+        List<CommandblockDefinition> definitions = createCommandBlockdefinitions(splitResult);
+        List<String> result = generateSingleCommands(definitions, splitResult.width, maxHeight, trackOutput);
+        
+        if (result.isEmpty()) {
+            throw new AssertionError("Unable to generate commands shorter than 32767 characters.");
+        }
+        
+        return result;
+    }
+    
     public static void generateOneClickCommands(List<Command> commands, int maxHeight, boolean trackOutput, boolean copyWindow) {
         List<String> result = getOneClickCommands(commands, maxHeight, trackOutput);
         
@@ -281,18 +293,6 @@ public final class Generator {
             });
             System.out.println("---");
         }
-    }
-    
-    public static List<String> getOneClickCommands(List<Command> commands, int maxHeight, boolean trackOutput) {
-        SplitResult splitResult = splitCommands(commands);
-        List<CommandblockDefinition> definitions = createCommandBlockdefinitions(splitResult);
-        List<String> result = generateSingleCommands(definitions, splitResult.width, maxHeight, trackOutput);
-        
-        if (result.isEmpty()) {
-            throw new AssertionError("Unable to generate commands shorter than 32767 characters.");
-        }
-        
-        return result;
     }
     
     public static void generateOneClickCommands(List<Command> commands, int maxHeight, boolean trackOutput) {
@@ -325,6 +325,10 @@ public final class Generator {
         current.set("Passengers", new NBTArray().add(extra));
         
         return "summon FallingSand ~ ~1 ~ " + nbt.toString();
+    }
+    
+    public static void generateSchematics(List<Command> commands, String path) {
+        generateSchematics(commands, path, false);
     }
     
     public static void generateSchematics(List<Command> commands, String path, boolean trackOutput) {

@@ -8,6 +8,18 @@ public class NBTArray {
 
     private final List<Object> data = new ArrayList<>();
 
+    public NBTArray() {
+    }
+    
+    public NBTArray(String json) {
+        json = json.substring(1, json.length() - 2);
+        
+        String[] split = json.split(",");
+        for (String part : split) {
+            addCustom(part);
+        }
+    }
+    
     public NBTArray add(String value)
     {
         data.add("\"" + value + "\"");
@@ -34,6 +46,11 @@ public class NBTArray {
 
     public NBTArray add(NBTObject value)
     {
+        data.add(value);
+        return this;
+    }
+    
+    public NBTArray addCustom(String value) {
         data.add(value);
         return this;
     }

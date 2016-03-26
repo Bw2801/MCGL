@@ -60,15 +60,13 @@ public class Entities {
 
     String tag = null;
 
-    public static Entities copy(Entities entities)
-    {
+    public static Entities copy(Entities entities) {
         Entities copy = new Entities();
         copy(entities, copy);
         return copy;
     }
 
-    public static void copy(Entities source, Entities target)
-    {
+    public static void copy(Entities source, Entities target) {
         target.selectorType = source.selectorType;
         target.entityType = source.entityType;
         target.gamemode = source.gamemode;
@@ -102,8 +100,7 @@ public class Entities {
         });
     }
 
-    public static Entities get(EntityType type, Integer count)
-    {
+    public static Entities get(EntityType type, Integer count) {
         Entities entities = new Entities();
         entities.selectorType = count != null && count == 1 ? SelectorType.SINGLE : SelectorType.MULTIPLE;
         entities.entityType = type;
@@ -119,8 +116,7 @@ public class Entities {
         return get(EntityType.ANY, null);
     }
 
-    public static Entities getSingle(EntityType type)
-    {
+    public static Entities getSingle(EntityType type) {
         return get(type, 1);
     }
     
@@ -128,8 +124,7 @@ public class Entities {
         return getSingle(EntityType.ANY);
     }
 
-    public static Entities getRandom(EntityType type, Integer count)
-    {
+    public static Entities getRandom(EntityType type, Integer count) {
         Entities entities = new Entities();
         entities.selectorType = SelectorType.RANDOM;
         entities.entityType = type;
@@ -145,54 +140,46 @@ public class Entities {
         return getRandom(EntityType.ANY, null);
     }
 
-    public Entities withType(EntityType entityType)
-    {
+    public Entities withType(EntityType entityType) {
         Entities entities = copy(this);
         entities.entityType = entityType;
         return entities;
     }
 
-    public Entities withName(String name)
-    {
+    public Entities withName(String name) {
         Entities entities = copy(this);
         entities.name = name;
         return entities;
     }
 
-    public Entities withTeam(String team)
-    {
+    public Entities withTeam(String team) {
         Entities entities = copy(this);
         entities.team = team;
         return entities;
     }
 
-    public Entities withScore(String objective, Integer min, Integer max)
-    {
+    public Entities withScore(String objective, Integer min, Integer max) {
         Entities entities = copy(this);
         EntityScore score = new EntityScore(min, max);
         entities.scores.put(objective, score);
         return entities;
     }
 
-    public Entities withMaxScore(String objective, int max)
-    {
+    public Entities withMaxScore(String objective, int max) {
         return withScore(objective, null, max);
     }
 
-    public Entities withMinScore(String objective, int min)
-    {
+    public Entities withMinScore(String objective, int min) {
         return withScore(objective, min, null);
     }
 
-    public Entities clearScores()
-    {
+    public Entities clearScores() {
         Entities entities = copy(this);
         entities.scores.clear();
         return entities;
     }
 
-    public Entities atCoordinates(int x, int y, int z, Integer maxRadius, Integer minRadius)
-    {
+    public Entities atCoordinates(int x, int y, int z, Integer maxRadius, Integer minRadius) {
         Entities entities = copy(this);
         entities.x = x;
         entities.y = y;
@@ -213,8 +200,7 @@ public class Entities {
         return atCoordinates(x, y, z, 0, null);
     }
 
-    public Entities InArea(int xMin, int yMin, int zMin, int xMax, int yMax, int zMax)
-    {
+    public Entities InArea(int xMin, int yMin, int zMin, int xMax, int yMax, int zMax) {
         Entities entities = copy(this);
         entities.x = x;
         entities.y = y;
@@ -227,16 +213,14 @@ public class Entities {
         return entities;
     }
 
-    public Entities InRadius(Integer min, Integer max)
-    {
+    public Entities InRadius(Integer min, Integer max) {
         Entities entities = copy(this);
         entities.minRadius = min;
         entities.maxRadius = max;
         return entities;
     }
 
-    public Entities withRotation(Integer minXRotation, Integer maxXRotation, Integer minYRotation, Integer maxYRotation)
-    {
+    public Entities withRotation(Integer minXRotation, Integer maxXRotation, Integer minYRotation, Integer maxYRotation) {
         Entities entities = copy(this);
         entities.rotationMinX = minXRotation;
         entities.rotationMaxX = maxXRotation;
@@ -245,45 +229,42 @@ public class Entities {
         return entities;
     }
 
-    public Entities withHorizontalRotation(Integer min, Integer max)
-    {
+    public Entities withHorizontalRotation(Integer min, Integer max) {
         return withRotation(min, max, null, null);
     }
 
-    public Entities withVerticalRotation(Integer min, Integer max)
-    {
+    public Entities withVerticalRotation(Integer min, Integer max) {
         return withRotation(null, null, min, max);
     }
 
-    public Entities withGamemode(String gamemode)
-    {
+    public Entities withGamemode(String gamemode) {
         Entities entities = copy(this);
         entities.gamemode = gamemode;
         return entities;
     }
 
-    public Entities withExperienceLevel(Integer min, Integer max)
-    {
+    public Entities withExperienceLevel(Integer min, Integer max) {
         Entities entities = copy(this);
         entities.experienceMin = min;
         entities.experienceMax = max;
         return entities;
     }
 
-    public Entities withTag(String tag)
-    {
+    public Entities withTag(String tag) {
         Entities entities = copy(this);
         entities.tag = tag;
         return entities;
     }
+    
+    public Entities withoutTag(String tag) {
+        return withTag("!" + tag);
+    }
 
-    public String getSelectorString()
-    {
+    public String getSelectorString() {
         List<String> elements = new ArrayList<>();
         String result = "";
 
-        if (selectorType == SelectorType.SINGLE)
-        {
+        if (selectorType == SelectorType.SINGLE) {
             if (entityType == EntityType.Player)
             {
                 result = "@p";
@@ -294,8 +275,7 @@ public class Entities {
                 elements.add("c=1");
             }
         }
-        else if (selectorType == SelectorType.MULTIPLE)
-        {
+        else if (selectorType == SelectorType.MULTIPLE) {
             if (entityType == EntityType.Player)
             {
                 result = "@a";
@@ -306,8 +286,7 @@ public class Entities {
             }
             if (count != null) elements.add("c=" + count);
         }
-        else if (selectorType == SelectorType.RANDOM)
-        {
+        else if (selectorType == SelectorType.RANDOM) {
             result = "@r";
             if (count != null) elements.add("count=" + count);
         }
@@ -319,15 +298,13 @@ public class Entities {
         if (experienceMax != null) elements.add("l=" + experienceMax);
         if (!gamemode.equals(Gamemode.ANY)) elements.add("m=" + gamemode);
 
-        if (x != null && y != null && z != null)
-        {
+        if (x != null && y != null && z != null) {
             elements.add("x=" + x);
             elements.add("y=" + y);
             elements.add("z=" + z);
         }
 
-        if (dx != null && dy != null && dz != null)
-        {
+        if (dx != null && dy != null && dz != null) {
             elements.add("dx=" + dx);
             elements.add("dy=" + dy);
             elements.add("dz=" + dz);

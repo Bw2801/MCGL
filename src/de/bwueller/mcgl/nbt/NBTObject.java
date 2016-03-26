@@ -22,6 +22,19 @@ public class NBTObject {
 
     public final Map<String, Object> data = new HashMap<>();
 
+    public NBTObject() {
+    }
+    
+    public NBTObject(String json) {
+        json = json.substring(1, json.length() - 2);
+        
+        String[] split = json.split(",");
+        for (String part : split) {
+            String[] pair = part.split(":");
+            setCustom(pair[0], pair[1]);
+        }
+    }
+    
     public NBTObject set(String key, String value)
     {
         data.put(key, "\"" + value + "\"");

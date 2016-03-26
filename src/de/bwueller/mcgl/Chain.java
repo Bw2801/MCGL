@@ -219,6 +219,10 @@ public class Chain extends CommandHandler {
     public AreasAreEqualCondition areasAreEqual(Area source, Area target) {
         return areasAreEqual(source, target, null);
     }
+    
+    public WasSuccessfulCondition wasSuccessful() {
+        return new WasSuccessfulCondition();
+    }
 
     private String getConditionString() {
         String result = "";
